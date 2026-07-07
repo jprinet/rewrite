@@ -16,6 +16,7 @@ val unpackedAndRenamedLombokDir = layout.buildDirectory.dir("lombok").get().asFi
 tasks.register("unpackAndRenameLombok") {
     inputs.files(configurations.getByName("lombok"))
     outputs.dir(unpackedAndRenamedLombokDir)
+    outputs.cacheIf { true }
     doFirst {
         mkdir(unpackedAndRenamedLombokDir)
         unpackedAndRenamedLombokDir.listFiles()?.forEach { it.delete() }
