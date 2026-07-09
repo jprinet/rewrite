@@ -104,4 +104,9 @@ tasks.named<ShadowJar>("shadowJar").configure {
     // metadata, which would otherwise cause tools that read pom.properties to misidentify
     // this jar as com.puppycrawl.tools:checkstyle.
     exclude("META-INF/maven/**")
+    // Remove Class-Path manifest attribute: its content includes checkout-specific paths
+    // and causes cache misses in different-location builds.
+    manifest {
+        attributes.remove("Class-Path")
+    }
 }
