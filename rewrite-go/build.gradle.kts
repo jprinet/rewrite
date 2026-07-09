@@ -261,7 +261,12 @@ val goTest = tasks.register<Exec>("goTest") {
         exclude("build/**")
         exclude("vendor/**")
     }).withPathSensitivity(PathSensitivity.RELATIVE)
-    inputs.file(file("test-classpath.txt"))
+    inputs.files(javaRpcClasspath)
+        .withNormalizer(ClasspathNormalizer::class)
+        .withPropertyName("javaRpcClasspath")
+    inputs.files(tasks.named("compileJava").map { it.outputs.files })
+        .withNormalizer(ClasspathNormalizer::class)
+        .withPropertyName("compileOutput")
     outputs.file(junitXmlFile)
     outputs.cacheIf { true }
 }
